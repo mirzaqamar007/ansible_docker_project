@@ -1,11 +1,11 @@
 ---
-- hosts: docker
+- hosts: hosts
   gather_facts: false
   remote_user: root
   tasks:
     - name: Fetch files from the remote server
       synchronize:
-        src: /root/.jenkins/workspace/Myjob_github_ansible_docker/
+        src: /var/lib/jenkins/workspace/Ansible-Project
         dest: /home/aadmin/myproject/projects
         mode: pull
 - hosts: ansible
@@ -20,14 +20,14 @@
   - name: Removing the container 
     docker_container:
       name: nginx_container
-      image: nginx_image:v1
+      image: nginx
       state: absent
-  - name: "Its deleting the old inmage!!!"
+  - name: "It's deleting the old image!!!"
     docker_image:
-      name: nginx_image:v1
+      name: nginx
       state: absent
 
-  - name: Building the my docker images
+  - name: Building my Docker image
     docker_image:
       source: build
       name: nginx_image:v1
